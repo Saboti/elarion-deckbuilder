@@ -1,0 +1,306 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-gray-100 min-h-screen;
+    background-color: #0f0d13;
+    background-image: radial-gradient(ellipse at top, #1a1625 0%, #0f0d13 100%);
+  }
+}
+
+@layer components {
+  /* Card Frame Styles */
+  .card-frame {
+    @apply relative rounded-xl overflow-hidden;
+    background: linear-gradient(145deg, #2a2435 0%, #1a1625 100%);
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,0.1),
+      0 4px 20px rgba(0,0,0,0.5);
+  }
+
+  .card-frame::before {
+    content: '';
+    @apply absolute inset-0 rounded-xl pointer-events-none;
+    border: 2px solid transparent;
+    background: linear-gradient(145deg, rgba(212,175,55,0.3), rgba(205,127,50,0.1)) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+
+  /* Stat Badges */
+  .stat-badge {
+    @apply w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold shadow-lg;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+  }
+
+  .stat-badge-power {
+    @apply bg-gradient-to-br from-blue-400 to-blue-600 text-white;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5), inset 0 1px 1px rgba(255,255,255,0.3);
+  }
+
+  .stat-badge-damage {
+    @apply bg-gradient-to-br from-red-400 to-red-600 text-white;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5), inset 0 1px 1px rgba(255,255,255,0.3);
+  }
+
+  .stat-badge-cost {
+    @apply bg-gradient-to-br from-yellow-400 to-yellow-600 text-black;
+    box-shadow: 0 0 10px rgba(234, 179, 8, 0.5), inset 0 1px 1px rgba(255,255,255,0.3);
+  }
+
+  /* Glass Panel */
+  .glass-panel {
+    @apply backdrop-blur-md rounded-lg;
+    background: rgba(15, 13, 19, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Fantasy Buttons */
+  .btn-fantasy {
+    @apply px-6 py-2.5 rounded-lg font-semibold transition-all duration-200;
+    background: linear-gradient(145deg, #d4af37 0%, #b8941f 50%, #d4af37 100%);
+    color: #1a1625;
+    text-shadow: 0 1px 1px rgba(255,255,255,0.3);
+    box-shadow:
+      0 2px 10px rgba(212, 175, 55, 0.3),
+      inset 0 1px 1px rgba(255,255,255,0.4),
+      inset 0 -1px 1px rgba(0,0,0,0.2);
+  }
+
+  .btn-fantasy:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      0 4px 20px rgba(212, 175, 55, 0.5),
+      inset 0 1px 1px rgba(255,255,255,0.4),
+      inset 0 -1px 1px rgba(0,0,0,0.2);
+  }
+
+  .btn-fantasy:active {
+    transform: translateY(0);
+  }
+
+  .btn-fantasy-secondary {
+    @apply px-6 py-2.5 rounded-lg font-semibold transition-all duration-200;
+    background: linear-gradient(145deg, #3a3545 0%, #2a2435 100%);
+    color: #e5e5e5;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .btn-fantasy-secondary:hover {
+    border-color: rgba(212, 175, 55, 0.6);
+    box-shadow: 0 2px 15px rgba(212, 175, 55, 0.2);
+  }
+
+  .btn-fantasy-danger {
+    @apply px-6 py-2.5 rounded-lg font-semibold transition-all duration-200;
+    background: linear-gradient(145deg, #7f1d1d 0%, #991b1b 100%);
+    color: #fecaca;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .btn-fantasy-danger:hover {
+    background: linear-gradient(145deg, #991b1b 0%, #b91c1c 100%);
+  }
+
+  /* Card Styles */
+  .card {
+    @apply relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300;
+  }
+
+  .card:hover {
+    @apply scale-105 z-10;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .card-nocturne { @apply ring-2 ring-nocturne; }
+  .card-ironheart { @apply ring-2 ring-ironheart; }
+  .card-wildborn { @apply ring-2 ring-wildborn; }
+  .card-veilwalkers { @apply ring-2 ring-veilwalkers; }
+  .card-silvertongue { @apply ring-2 ring-silvertongue; }
+  .card-fleshbound { @apply ring-2 ring-fleshbound; }
+
+  /* Name Banner */
+  .name-banner {
+    @apply absolute bottom-8 left-0 right-0 py-1.5 px-2 text-center;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(15, 13, 19, 0.95) 15%,
+      rgba(15, 13, 19, 0.95) 85%,
+      transparent 100%
+    );
+  }
+
+  .name-banner::before,
+  .name-banner::after {
+    content: '';
+    @apply absolute left-0 right-0 h-px;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(212, 175, 55, 0.6) 20%,
+      rgba(212, 175, 55, 0.6) 80%,
+      transparent 100%
+    );
+  }
+
+  .name-banner::before { @apply top-0; }
+  .name-banner::after { @apply bottom-0; }
+
+  /* Stars for Cost */
+  .star-cost {
+    @apply text-yellow-400;
+    text-shadow: 0 0 5px rgba(234, 179, 8, 0.5);
+  }
+
+  /* Faction Badge */
+  .faction-badge {
+    @apply w-7 h-7 rounded-full flex items-center justify-center text-sm;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Button styles */
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 text-white;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-700 hover:bg-gray-600 text-white;
+  }
+
+  .btn-danger {
+    @apply bg-red-600 hover:bg-red-700 text-white;
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-4 py-2.5 rounded-lg transition-all duration-200;
+    background: rgba(26, 22, 37, 0.8);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .input:focus {
+    @apply outline-none;
+    border-color: rgba(212, 175, 55, 0.5);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.15);
+  }
+
+  .input::placeholder {
+    @apply text-gray-500;
+  }
+
+  /* Deck Slot */
+  .deck-slot {
+    @apply w-full h-full rounded-lg border-2 border-dashed;
+    border-color: rgba(212, 175, 55, 0.3);
+    @apply flex items-center justify-center transition-all duration-200;
+    background: rgba(26, 22, 37, 0.5);
+  }
+
+  .deck-slot:hover {
+    border-color: rgba(212, 175, 55, 0.5);
+    background: rgba(26, 22, 37, 0.8);
+  }
+
+  .deck-slot-filled {
+    @apply border-solid;
+    border-color: rgba(212, 175, 55, 0.5);
+  }
+
+  /* Panel */
+  .panel {
+    @apply rounded-xl p-5;
+    background: linear-gradient(145deg, rgba(42, 36, 53, 0.8), rgba(26, 22, 37, 0.9));
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Progress Bar */
+  .progress-bar {
+    @apply h-2 rounded-full overflow-hidden;
+    background: rgba(26, 22, 37, 0.8);
+  }
+
+  .progress-bar-fill {
+    @apply h-full rounded-full transition-all duration-300;
+    background: linear-gradient(90deg, #d4af37, #eab308);
+  }
+
+  /* Slot Indicator */
+  .slot-indicator {
+    @apply w-3 h-3 rounded-full transition-all duration-200;
+    background: rgba(212, 175, 55, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+  }
+
+  .slot-indicator.filled {
+    background: linear-gradient(145deg, #d4af37, #b8941f);
+    box-shadow: 0 0 8px rgba(212, 175, 55, 0.5);
+  }
+
+  /* Ornamental Divider */
+  .ornament-divider {
+    @apply relative h-px my-4;
+    background: linear-gradient(90deg,
+      transparent 0%,
+      rgba(212, 175, 55, 0.5) 50%,
+      transparent 100%
+    );
+  }
+
+  .ornament-divider::before {
+    content: '';
+    @apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rotate-45;
+    background: #d4af37;
+  }
+}
+
+/* Card stats overlay */
+.card-stats {
+  @apply absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-2;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 13, 19, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #3a3545, #2a2435);
+  border-radius: 4px;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #4a4555, #3a3545);
+}
+
+/* Glow Animation */
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+  }
+  50% {
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+  }
+}
+
+.animate-glow {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
