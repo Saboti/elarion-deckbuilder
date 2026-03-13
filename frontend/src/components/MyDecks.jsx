@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { useDecks } from '../hooks/useDecks';
 import { encodeDeck } from '../utils/deckCode';
 import FactionIcon from './FactionIcon';
+import Card from './Card';
 import cardData from '../data/cards.json';
 
 const { cards, factions } = cardData;
@@ -204,6 +205,16 @@ export default function MyDecks() {
                       {faction.name} ({faction.count})
                     </span>
                   ))}
+                </div>
+
+                {/* Card Preview */}
+                <div className="flex gap-1.5 mt-4 pl-3 overflow-x-auto pb-2">
+                  {deck.cards.map((cardId, index) => {
+                    const card = cards.find(c => c.cardId === cardId);
+                    return card ? (
+                      <Card key={`${deck.id}-${cardId}-${index}`} card={card} small />
+                    ) : null;
+                  })}
                 </div>
 
                 {/* Actions */}

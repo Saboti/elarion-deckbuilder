@@ -7,6 +7,7 @@ import DeckStats from './DeckStats';
 import ImportExport from './ImportExport';
 import { useAuth } from '../hooks/useAuth';
 import { useDecks } from '../hooks/useDecks';
+import { calculateDeckStats } from '../utils/deckCode';
 import cardData from '../data/cards.json';
 
 const { cards } = cardData;
@@ -24,6 +25,7 @@ export default function DeckBuilder() {
   const [isPublic, setIsPublic] = useState(false);
   const [editingId, setEditingId] = useState(null);
   const [showImportExport, setShowImportExport] = useState(false);
+  const [showMobileStats, setShowMobileStats] = useState(false);
   const [saveMessage, setSaveMessage] = useState('');
   const [addError, setAddError] = useState('');
 
@@ -184,8 +186,15 @@ export default function DeckBuilder() {
 
   const isDeckComplete = deckCards.length === MAX_CARDS && totalCost <= MAX_COST;
 
+  // Calculate stats for mobile bar
+  const mobileStats = useMemo(() => {
+    const stats = calculateDeckStats(deckCards, cards);
+    // Return default values if no cards in deck
+    return stats || { avgCost: '0.0', totalPower: 0, totalDamage: 0 };
+  }, [deckCards]);
+
   return (
-    <div className="flex flex-col lg:flex-row gap-6">
+    <div className="flex flex-col lg:flex-row gap-6 pb-20 lg:pb-0">
       {/* Main Content - Card Grid */}
       <div className="flex-1 space-y-4">
         <Filters filters={filters} setFilters={setFilters} />
@@ -354,7 +363,10 @@ export default function DeckBuilder() {
           )}
         </div>
 
-        <DeckStats deckCards={deckCards} totalCost={totalCost} maxCost={MAX_COST} />
+        {/* Desktop: DeckStats inline */}
+        <div className="hidden lg:block">
+          <DeckStats deckCards={deckCards} totalCost={totalCost} maxCost={MAX_COST} />
+        </div>
       </div>
 
       {showImportExport && (
@@ -364,6 +376,61 @@ export default function DeckBuilder() {
           onImport={handleImport}
           onClose={() => setShowImportExport(false)}
         />
+      )}
+
+      {/* Mobile Stats Bar - Fixed Bottom */}
+      {mobileStats && (
+        <div className="fixed bottom-0 left-0 right-0 lg:hidden z-30">
+          <button
+            onClick={() => setShowMobileStats(true)}
+            className="w-full bg-surface-card border-t border-frame-gold/20 px-4 py-3 flex items-center justify-between"
+          >
+            <div className="flex items-center gap-4 text-sm">
+              <span className="flex items-center gap-1">
+                <span className="text-yellow-400">★</span>
+                <span className="text-yellow-400 font-bold">{mobileStats.avgCost}</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="text-blue-400">⚔</span>
+                <span className="text-blue-400 font-bold">{mobileStats.totalPower}</span>
+              </span>
+              <span className="flex items-center gap-1">
+                <span className="text-red-400">💥</span>
+                <span className="text-red-400 font-bold">{mobileStats.totalDamage}</span>
+              </span>
+            </div>
+            <span className="text-gray-400 text-xs flex items-center gap-1">
+              Stats
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+              </svg>
+            </span>
+          </button>
+        </div>
+      )}
+
+      {/* Mobile Stats Bottom Sheet */}
+      {showMobileStats && (
+        <>
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/60 z-40 lg:hidden"
+            onClick={() => setShowMobileStats(false)}
+          />
+
+          {/* Bottom Sheet */}
+          <div className="fixed bottom-0 left-0 right-0 max-h-[80vh] z-50 lg:hidden bg-surface-panel rounded-t-2xl overflow-auto">
+            {/* Handle */}
+            <div className="sticky top-0 bg-surface-panel pt-3 pb-2">
+              <div className="w-10 h-1 bg-gray-600 rounded-full mx-auto" />
+            </div>
+
+            {/* Stats Content */}
+            <div className="px-4 pb-6">
+              <DeckStats deckCards={deckCards} totalCost={totalCost} maxCost={MAX_COST} />
+            </div>
+          </div>
+        </>
       )}
     </div>
   );
